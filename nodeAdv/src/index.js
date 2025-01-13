@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import { DB_NAME } from './constants';
 import connectDB from './db/index.js';
 
+const app = express()
 dotenv.config({
     path: './env'
 })
@@ -35,3 +36,7 @@ const app = express()
     }
 })()
 */
+
+app.listen(process.env.PORT, () => {
+    console.log(`Serve at ${PORT}`)
+})
