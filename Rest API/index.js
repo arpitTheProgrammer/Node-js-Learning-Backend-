@@ -1,7 +1,23 @@
 const express = require('express')
+const fs = require('fs')
 const users = require("./MOCK_DATA.json")
+
 const app = express()
 const PORT = 8000
+
+// Middleware - Plugin
+app.use(express.urlencoded({extended:false}))
+
+app.use((req, res, next) => {
+    // console.log("Hello From Middleware")
+    // return res.json({msg: "Hello From middleware"})
+    next(); // Transfer to the Next middleware
+})
+
+app.use((req, res, next) => {
+    return res.end("Hay")
+})
+
 
 app.get('/api/user', (req, res) => {
     return res.json(users)
@@ -41,6 +57,34 @@ app.get('/user', (req, res)=> {
 // app.patch('/api/user/:id', (req, res) => {
 //     return res.json({status: "Pending"})
 // })
+
+
+app.post("/api/user", (req, res) => {
+    const body = req.body;
+    users.push({...body, id: users.length + 1});
+    fs.writeFileSync('./MOCK_DATA.json', JSON.stringify(users), (err, data) => {
+        return res.json({status: "SUCCESS", id: users.length + 1})
+    })
+    console.log(body)
+})
+
+app.delete('/api/user', (req, res) => {
+    const body = req.body;
+    const index = users.findIndex(user => user.body === body);
+    console.log(body)
+    if(index !== -1){
+        users.splice(index, 1);
+        try {
+        fs.writeFileSync('./MOCK_DATA.json', JSON.stringify(users), 'utf-8')
+            return res.json({status: "SUCCESS"})
+    } catch{
+        return req.json({status: "Failed"})
+    }
+    } else {
+        return res.status(404).json({ status: "ERROR", message: "User not found" });
+    }
+})
+
 app.listen(PORT, () =>{
     console.log(`Serve at PORT ${PORT}`)
 })

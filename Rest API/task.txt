@@ -9,3 +9,8 @@ POST /user  - create new User
 PATCH /user/1 - Edit the user ID one
 
 DELET /user/1 - DELET the user ID one
+
+middleware - Forward request if everything is safe
+             It runs on every functions
+             It will end the response if something wrong
+             It can change request response call
