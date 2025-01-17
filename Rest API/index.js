@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const users = require("./MOCK_DATA.json")
+// const mw = require('./middleware.js')
 
 const app = express()
 const PORT = 8000
@@ -9,17 +10,27 @@ const PORT = 8000
 app.use(express.urlencoded({extended:false}))
 
 app.use((req, res, next) => {
-    // console.log("Hello From Middleware")
+    console.log("Hello From Middleware")
+    req.myUserName = "Arpit Srivastava"
+    fs.appendFile('log.txt', `${Date.now()}, ${req.method}, ${req.ip}, ${req.path}\n`, (err, data)=>{
+        next()
+    }) // Create files
+    // console.log(mw)
     // return res.json({msg: "Hello From middleware"})
-    next(); // Transfer to the Next middleware
+    // next(); // Transfer to the Next middleware
 })
 
-app.use((req, res, next) => {
-    return res.end("Hay")
-})
-
+// app.use((req, res, next) => {
+//     console.log("Hay", req.myUserName)
+//     console.log('Time', Date.now())
+//     next()
+//     // return res.end("Hay", req.myUserName)
+// })
 
 app.get('/api/user', (req, res) => {
+    console.log('I am in get rout ', req.myUserName)
+    console.log(req.headers)
+    res.setHeader('X-myName', "Arpit Srivastava") // This is a Custom Header
     return res.json(users)
 })
 
@@ -68,6 +79,8 @@ app.post("/api/user", (req, res) => {
     console.log(body)
 })
 
+
+
 app.delete('/api/user', (req, res) => {
     const body = req.body;
     const index = users.findIndex(user => user.body === body);
@@ -84,6 +97,8 @@ app.delete('/api/user', (req, res) => {
         return res.status(404).json({ status: "ERROR", message: "User not found" });
     }
 })
+
+
 
 app.listen(PORT, () =>{
     console.log(`Serve at PORT ${PORT}`)
