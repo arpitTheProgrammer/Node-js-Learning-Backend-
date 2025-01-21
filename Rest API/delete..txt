@@ -1,0 +1,16 @@
+  .delete((req, res) => {
+    const { id } = req.params;
+
+    // Find and delete the user in memory
+    const index = users.findIndex(user => user.id === Number(id));
+    if (index !== -1) {
+      users.splice(index, 1);
+      
+      // Write the updated users array to MOCK_DATA.json
+      fs.writeFileSync('./MOCK_DATA.json', JSON.stringify(users, null, 2));
+
+      return res.json({ status: "SUCCESS" });
+    } else {
+      return res.status(404).json({ status: "ERROR", message: "User not found" });
+    }
+  });

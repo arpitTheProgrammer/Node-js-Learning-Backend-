@@ -1,0 +1,5 @@
+MongoDB
+
+Schema - Define Structure
+    Scheam - Model
+    using model we do CRUD operations
