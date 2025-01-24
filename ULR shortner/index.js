@@ -11,6 +11,16 @@ app.listen(() => {
     console.log('MongoDB Connected')
 })
 
+app.get("/test", (req, res) => {
+    return res.end(`
+        <html>
+            <head></head>
+            <body></body>
+        </html>
+        `)
+})
+
+
 app.use('/url', urlRoute)
 app.use(express.json())
 
@@ -32,8 +42,10 @@ app.get('/:shortId', async(req, res) => {
         }
     }
 )
-        res.redirect(entry.redirectUrl)
+        // res.redirect(entry.redirectUrl)  
 })
+
+
 app.listen(PORT, () => {
     console.log(`Serve st PORT:-  ${PORT}`)
 })

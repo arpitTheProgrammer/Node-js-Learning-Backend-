@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>User Data</h1>
+    <form id="userForm">
+        <label for="">Enter Your Details</label>
+        <input type="text" id="firstName" name="firstName" placeholder="What is Your first Name">
+        <input type="text" id="lastName" name="lastName" placeholder="What is Your last Name">
+        <input type="text" id="email" name="email" placeholder="What is Your email Name">
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="What is Your jobTitle Name">
+        <button id="HandleFind" type="submit">Submit Details</button>
+    </form>
+    <h1 id="UserResponse"></h1>
+</body>
+    <script>
+        const userForm = document.getElementById('userForm')
+        const UserResponse = document.getElementById('UserResponse')
+
+        userForm.addEventListener('submit', (event)=>{
+          event.defaultPrevented();
+          const firstName = document.getElementById('firstName')
+          const lastName = document.getElementById('lastName')
+          const email = document.getElementById('email')
+          const jobTitle = document.getElementById('jobTitle')
+          const userData = {
+            firstName,
+            lastName,
+            email,
+            jobTitle
+          }
+        fetch('/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then(data=> {
+            UserResponse.textContent = `Hello ${firstName} ${lastName} ${email} ${jobTitle}`
+        })
+        .catch(error => {
+            UserResponse.textContent = `Please Try again`
+        })
+        })  
+    </script>
+</html>
