@@ -1,0 +1,12 @@
+Set express Server
+Install multer, ejs
+
+set view engine
+set path 
+
+multer help to upload image on database
+
+create multer middlware -- in which we have to use two things
+    destination -- in callback
+    filename -- in callback
+
