@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+</head>
+<style>
+    .container-login{
+        position: relative;
+        top: 30px;
+        /* border: 2px solid black;
+        width: 500px; */
+        display: grid;
+    }
+    .email-section{
+        margin: 10px;
+    }
+    .email-input{
+        height: 40px;
+        position: relative;
+        margin: 5px;
+        left: 25px;
+    }
+    .pass-input{
+        height: 40px;
+        position: relative;
+        margin: 5px;
+        left: 10px;
+    }
+    .name-input{
+        height: 40px;
+        position: relative;
+        margin: 5px;
+        left: 6px;
+    }
+    .btn-submit{
+        position: relative;
+        left: 110px;
+        top: 10px;
+        height: 30px;
+        width: 100px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <%- include('./partials/nav.ejs')%>
+</body>
+<div class="container-login">
+    <form action="/signup" method="post">
+        <div class="fullName-section">
+            <label for="exampleFullName">Full Name</label>
+            <input type="text" name="fullName" placeholder="Enter Your Name" class="name-input">
+        </div>
+        <div class="email-section">
+            <label for="exampleInputEmail" class="email-label" >Email</label>
+            <input type="email" name="email" placeholder="Enter email" class="email-input">
+        </div>
+        <div class="pass-section">
+            <label for="examplePassword">Password</label>
+            <input type="password" name="password" placeholder="Enter Password" class="pass-input">
+        </div>
+        <button class="btn-submit" type="submit">SignUp</button>
+    </form>
+</div>
+<%- include('./partials/script.ejs')%>
+
+</html>
