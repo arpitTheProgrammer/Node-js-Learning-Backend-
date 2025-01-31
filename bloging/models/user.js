@@ -50,24 +50,27 @@ userSchema.pre('save', function(next){
 
 })
 
-userSchema.static('matchPass',  async function(email, password) {
-    const user = await this.findOne({email});
-    if(!user){
-        throw new Error('User Not Found')
+userSchema.static('matchPass', async function (email, password) {
+    const user = await this.findOne({ email });
+    if (!user) {
+      throw new Error('User Not Found');
     }
-    console.log(user)
+  
     const salt = user.salt;
     const hashPass = user.password;
-
+  
     const userProvidedPass = createHmac("sha256", salt)
-    .update(password)
-    .digest("hex");
-
-    if(hashPass != userProvidedPass){
-        throw new Error('Incorrect Pass');
+      .update(password)
+      .digest("hex");
+  
+    if (hashPass !== userProvidedPass) {
+      throw new Error('Incorrect Password');
     }
-    return  {...user, password: undefined, salt: undefined};
-})
-const User = model("user", userSchema)
-
-module.exports = User;
+  
+    // Return user object with sensitive data removed
+    return { ...user, password: undefined, salt: undefined };
+  });
+  
+  const User = model("User", userSchema);
+  
+  module.exports = User;
