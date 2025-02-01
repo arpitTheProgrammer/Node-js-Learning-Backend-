@@ -9,6 +9,7 @@
     <h1>Chatting</h1>
     <input type="text" placeholder="Enter Message" name="" id="message">
     <button id="sendBtn">Send</button>
+    <div id="msg"></div>
     <!-- <button id="btn" onclick="HandleUserCreate">Create Connection</button> -->
 </body>
 <!--  Install Socket.io -->
@@ -18,6 +19,15 @@
     // const btn = document.getElementById('btn')
     const messageInput = document.getElementById('message')
     const sendBTn = document.getElementById('sendBtn')
+    const msg = document.getElementById('msg')
+
+    msg.innerHTML = socket.on('message', message => message)
+
+    socket.on('message', (message)=> {
+        const p = document.createElement('p')
+        p.innerHTML = message;
+        msg.appendChild(p)
+    })
     sendBTn.addEventListener('click', (e) => {
         const message = messageInput.value;
         console.log(message)
